@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "bootstrap@4.5.2",
+      "destination": "wwwroot/cdn/bootstrap/4.5.2/",
+      "files": [
+        "dist/css/bootstrap.min.css"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/cdn/jquery/3.5.1/",
+      "files": [
+        "jquery.min.js"
+      ]
+    }
+  ]
+}
