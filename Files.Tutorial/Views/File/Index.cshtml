@@ -1,4 +1,5 @@
-﻿@model FileUploadViewModel
+﻿@using Files.Tutorial.Extensions
+@model FileUploadViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,17 +12,17 @@
         @ViewBag.Message
     </div>
 }
+
+<hr />
+<h4>Files on File System</h4>
+<hr />
 <form method="post" enctype="multipart/form-data" id="form-upload">
     <div>
         <input type="file" name="files" multiple required />
         <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
         <input type="submit" class="btn btn-primary submit-form" value="Upload to File System" asp-controller="File" asp-action="UploadToFileSystem" />
-        <input type="submit" class="btn btn-success submit-form" value="Upload to Database" asp-controller="File" asp-action="UploadToDatabase" />
     </div>
 </form>
-
-<hr />
-<h4>Files on File System</h4>
 @if (Model.FilesOnFileSystem.Count == 0)
 {
     <caption>No Records Found</caption>
@@ -34,6 +35,7 @@ else
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Size</th>
                 <th>Description</th>
                 <th>File Type</th>
                 <th>Created On</th>
@@ -46,6 +48,7 @@ else
                 <tr>
                     <th>@file.Id</th>
                     <td>@file.Name</td>
+                    <td>@file.Size.ToBytesCount()</td>
                     <td>@file.Description</td>
                     <td>@file.FileType</td>
                     <td>@file.CreatedOn</td>
@@ -59,8 +62,17 @@ else
     </table>
 }
 
+
 <hr />
 <h4>Files on File Database</h4>
+<hr />
+<form method="post" enctype="multipart/form-data" id="form-upload">
+    <div>
+        <input type="file" name="files" multiple required />
+        <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
+        <input type="submit" class="btn btn-success submit-form" value="Upload to Database" asp-controller="File" asp-action="UploadToDatabase" />
+    </div>
+</form>
 @if (Model.FilesOnDatabase.Count == 0)
 {
     <caption>No Records Found</caption>
@@ -73,6 +85,7 @@ else
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Size</th>
                 <th>Description</th>
                 <th>File Type</th>
                 <th>Created On</th>
@@ -85,6 +98,61 @@ else
                 <tr>
                     <th>@file.Id</th>
                     <td>@file.Name</td>
+                    <td>@file.Size.ToBytesCount()</td>
+                    <td>@file.Description</td>
+                    <td>@file.FileType</td>
+                    <td>@file.CreatedOn</td>
+                    <td style="width:200px">
+                        <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromDatabase" asp-route-id="@file.Id">Download</a>
+                        <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromDatabase" asp-route-id="@file.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<hr />
+<h4>Files on Azure Blob</h4>
+<hr />
+<form method="post" enctype="multipart/form-data" id="form-upload">
+    <div>
+        <input type="file" name="files" multiple required />
+        <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
+        <input type="submit" 
+               class="btn btn-success submit-form" 
+               value="Upload to Azure Blob" 
+               asp-controller="File" 
+               asp-action="UploadToDatabase" />
+    </div>
+</form>
+@if (Model.FilesOnDatabase.Count == 0)
+{
+    <caption>No Records Found</caption>
+}
+else
+{
+    <caption>List of Files on File System</caption>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Description</th>
+                <th>File Type</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.FilesOnDatabase)
+            {
+                <tr>
+                    <th>@file.Id</th>
+                    <td>@file.Name</td>
+                    <td>@file.Size.ToBytesCount()</td>
                     <td>@file.Description</td>
                     <td>@file.FileType</td>
                     <td>@file.CreatedOn</td>

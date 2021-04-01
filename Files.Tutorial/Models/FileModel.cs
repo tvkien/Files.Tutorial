@@ -8,6 +8,8 @@ namespace Files.Tutorial.Models
 
         public string Name { get; set; }
 
+        public long Size { get; set; }
+
         public string FileType { get; set; }
 
         public string Extension { get; set; }

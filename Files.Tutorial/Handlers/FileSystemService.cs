@@ -100,7 +100,8 @@ namespace Files.Tutorial.Handlers
                     Extension = extension,
                     Name = fileName,
                     Description = description,
-                    FilePath = filePath
+                    FilePath = filePath,
+                    Size = file.Length
                 };
                 await context.FileOnFileSystem.AddAsync(fileModel);
                 await context.SaveChangesAsync();

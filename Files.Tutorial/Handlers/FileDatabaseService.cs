@@ -51,7 +51,8 @@ namespace Files.Tutorial.Handlers
                     FileType = file.ContentType,
                     Extension = extension,
                     Name = fileName,
-                    Description = description
+                    Description = description,
+                    Size = file.Length
                 };
                 using (var dataStream = new MemoryStream())
                 {
