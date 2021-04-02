@@ -16,16 +16,21 @@ namespace Files.Tutorial.Handlers
 
         public Task UploadFromStreamAsync(Stream source)
         {
-            // Get a connection string to our Azure Storage account.
-            string connectionString = "<connection_string>";
-            string containerName = "sample-container";
-            string blobName = "sample-blob";
-            string filePath = "hello.jpg";
-
-            // Get a reference to a container named "sample-container" and then create it
-            BlobContainerClient container = new BlobContainerClient(connectionString, containerName);
-            container.Create();
-            BlobClient blob = container.GetBlobClient(blobName);
+            throw new System.NotImplementedException();
         }
+
+        //public Task UploadFromStreamAsync(Stream source)
+        //{
+        //    // Get a connection string to our Azure Storage account.
+        //    string connectionString = "<connection_string>";
+        //    string containerName = "sample-container";
+        //    string blobName = "sample-blob";
+        //    string filePath = "hello.jpg";
+
+        //    // Get a reference to a container named "sample-container" and then create it
+        //    BlobContainerClient container = new BlobContainerClient(connectionString, containerName);
+        //    container.Create();
+        //    BlobClient blob = container.GetBlobClient(blobName);
+        //}
     }
 }

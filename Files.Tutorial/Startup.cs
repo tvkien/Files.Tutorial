@@ -1,7 +1,9 @@
+using Files.Tutorial.Attributes;
 using Files.Tutorial.EF;
 using Files.Tutorial.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,7 +37,11 @@ namespace Files.Tutorial
             services.AddScoped<IFileSystemService, FileSystemService>();
             services.AddScoped<IFileDatabaseService, FileDatabaseService>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(typeof(DisableFormValueModelBindingAttribute));
+                options.Filters.Add(typeof(GenerateAntiforgeryTokenCookieAttribute));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,7 +59,11 @@ namespace Files.Tutorial
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.Use((context, next) =>
+            {
+                context.Request.EnableBuffering();
+                return next();
+            });
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

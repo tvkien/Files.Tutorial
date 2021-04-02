@@ -120,11 +120,65 @@ else
     <div>
         <input type="file" name="files" multiple required />
         <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required />
-        <input type="submit" 
-               class="btn btn-success submit-form" 
-               value="Upload to Azure Blob" 
-               asp-controller="File" 
+        <input type="submit"
+               class="btn btn-warning submit-form"
+               value="Upload to Azure Blob"
+               asp-controller="File"
                asp-action="UploadToDatabase" />
+    </div>
+</form>
+@if (Model.FilesOnDatabase.Count == 0)
+{
+    <caption>No Records Found</caption>
+}
+else
+{
+    <caption>List of Files on File System</caption>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Description</th>
+                <th>File Type</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model.FilesOnDatabase)
+            {
+                <tr>
+                    <th>@file.Id</th>
+                    <td>@file.Name</td>
+                    <td>@file.Size.ToBytesCount()</td>
+                    <td>@file.Description</td>
+                    <td>@file.FileType</td>
+                    <td>@file.CreatedOn</td>
+                    <td style="width:200px">
+                        <a type="button" class="btn btn-primary" asp-controller="File" asp-action="DownloadFileFromDatabase" asp-route-id="@file.Id">Download</a>
+                        <a type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromDatabase" asp-route-id="@file.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<hr />
+<h4>Upload large Files on Sharepoint Online</h4>
+<hr />
+<form method="post" enctype="multipart/form-data" id="form-upload">
+    <div>
+        <input type="file" name="files" multiple required />
+        <input type="text" autocomplete="off" placeholder="Enter File Description" name="description" required/>
+        <input type="submit"
+               class="btn btn-secondary submit-form"
+               value="Upload to Sharepoint"
+               asp-controller="File"
+               asp-action="UploadLargeFile" />
     </div>
 </form>
 @if (Model.FilesOnDatabase.Count == 0)
